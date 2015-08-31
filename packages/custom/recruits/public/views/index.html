@@ -1,4 +1,4 @@
-<div data-ng-controller="RecruitsController">
+<div>
   <h1 class="text-left">Recruits</h1>
   <p class="lead">To win national championships we must bring in the best talent across the country.
   With RecruitTracker, we can keep track of all of the top players in the country and determine which
@@ -26,11 +26,16 @@
     </tbody>
 
     <tbody ng-if="!showEmptyState">
-      <tr>
-        <td>Player Name</td>
-        <td>Position</td>
-        <td>Height</td>
-        <td>Weight</td>
+      <tr ng-repeat="recruit in recruits track by recruit._id"
+          class="recruit-row"
+          ng-class="{active: hover}"
+          ng-click="editRecruit(recruit._id)"
+          ng-mouseenter="hover = true"
+          ng-mouseleave="hover = false">
+        <td>{{ recruit.name }}</td>
+        <td> {{ recruit.position }}</td>
+        <td>{{ displayHeight(recruit.height) }}</td>
+        <td>{{recruit.weight}}</td>
         <td>Rating</td>
       </tr>
     </tbody>

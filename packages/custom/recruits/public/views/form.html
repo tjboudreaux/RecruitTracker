@@ -1,114 +1,134 @@
-<div data-ng-controller="RecruitsFormController">
+<div>
     <h1 class="text-left" ng-if="!isEdit">Create New Recruit</h1>
     <h1 class="text-left" ng-if="isEdit">Edit a Recruit</h1>
 
-    <div class="row form-group">
-        <div class="col col-md-8">
-            <label for="recruitName">Recruit Name</label>
-            <input type="text"
-                   id="recruitName"
-                   class="form-control"
-                   placeholder="Enter the recruit's name"
-                   ng-model="recruit.name" />
+    <div id="recruitForm" name="recruitForm" ng-form="recruitForm">
+
+        <div class="row">
+            <div class="col col-md-8 form-group"
+                 ng-class="{has-error: recruitForm.recruitName.$dirty && recruitForm.recruitName.$error}"
+            >
+                <label for="recruitName">Recruit Name</label>
+                <input type="text"
+                       id="recruitName"
+                       name="recruitName"
+                       class="form-control"
+                       placeholder="Enter the recruit's name"
+                       ng-model="recruit.name"
+                       ng-required="true" />
+
+                <div ng-messages="recruitForm.recruitName.$dirty && recruitForm.recruitName.$error"
+                     role="alert"
+                     class="error-message text-danger">
+                    <div ng-message="required">Recruit name is required.</div>
+                  </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-2">
+                        <label for="recruitHeightFeet" class="pull-left">Height</label>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-6">
+                        <input type="text"
+                               id="recruitHeightInches"
+                               class="form-control"
+                               ng-model="recruit.heightFeet"
+                               placeholder="ft" />
+                    </div>
+                    <div class="col col-md-6">
+                        <input type="text"
+                               id="recruitHeightFeet"
+                               class="form-control"
+                               ng-model="recruit.heightInches"
+                               placeholder="in" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <label for="recruitHeightFeet" class="pull-left">Weight</label>
+                    </div>
+                </div>
+
+                 <div class="row form-group">
+                    <div class="col col-md-12">
+                        <input type="text"
+                               id="recruitWeight"
+                               class="form-control"
+                               ng-model="recruit.weight"
+                               placeholder="lbs" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row form-group">
+
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <label for="recruitBirthDate" class="pull-left">Date of Birth</label>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <p class="input-group">
+                            <input type="text"
+                                   class="form-control"
+                                   datepicker-popup="{{format}}"
+                                   ng-model="recruit.birthDate"
+                                   is-open="isDateOpened"
+                                   max-date="todaysDate"
+                                   datepicker-options="dateOptions"
+                                   disabled
+                                   close-text="Close" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="openDateModal($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <label for="recruitHeightFeet" class="pull-left">Position</label>
+                    </div>
+                </div>
+
+                 <div class="row form-group">
+                    <div class="col col-md-12">
+                        <select class="form-control"
+                                ng-model="recruit.position"
+                                ng-options="value for (key, value) in positions">
+                                <option value="">Select a Position</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="col col-md-8">
+                <submit class="btn btn-primary" ng-click="saveRecruit()">Save</submit>
+                <a ui-sref="recruitsIndex" class="btn btn-link">Cancel</a>
+            </div>
         </div>
     </div>
-
-    <div class="row form-group">
-        <div class="col col-md-4">
-            <div class="row form-group">
-                <div class="col col-md-2">
-                    <label for="recruitHeightFeet" class="pull-left">Height</label>
-                </div>
-            </div>
-
-            <div class="row form-group">
-                <div class="col col-md-6">
-                    <input type="text"
-                           id="recruitHeightInches"
-                           class="form-control"
-                           ng-model="recruit.heightFeet"
-                           placeholder="ft" />
-                </div>
-                <div class="col col-md-6">
-                    <input type="text"
-                           id="recruitHeightFeet"
-                           class="form-control"
-                           ng-model="recruit.heightInches"
-                           placeholder="in" />
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col col-md-4">
-            <div class="row form-group">
-                <div class="col col-md-12">
-                    <label for="recruitHeightFeet" class="pull-left">Weight</label>
-                </div>
-            </div>
-
-             <div class="row form-group">
-                <div class="col col-md-12">
-                    <input type="text"
-                           id="recruitWeight"
-                           class="form-control"
-                           ng-model="recruit.weight"
-                           placeholder="lbs" />
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="row form-group">
-
-        <div class="col col-md-4">
-            <div class="row form-group">
-                <div class="col col-md-12">
-                    <label for="recruitBirthDate" class="pull-left">Date of Birth</label>
-                </div>
-            </div>
-
-            <div class="row form-group">
-                <div class="col col-md-12">
-                    <p class="input-group">
-                        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="dt" is-open="status.opened" min-date="minDate" max-date="'2020-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                        </span>
-                    </p>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="col col-md-4">
-            <div class="row form-group">
-                <div class="col col-md-12">
-                    <label for="recruitHeightFeet" class="pull-left">Position</label>
-                </div>
-            </div>
-
-             <div class="row form-group">
-                <div class="col col-md-12">
-                    <input type="text"
-                           id="recruitWeight"
-                           class="form-control"
-                           ng-model="recruit.weight"
-                           placeholder="lbs" />
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
-    <div class="row">
-        <div class="col col-md-8">
-            <button class="btn btn-primary">Save</button>
-            <a class="btn btn-link">Cancel</a>
-        </div>
-    </div>
-
 </div>

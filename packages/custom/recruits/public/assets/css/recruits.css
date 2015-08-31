@@ -1,3 +1,11 @@
 .recruits-table {
     margin-top:40px;
 }
+
+.recruit-row {
+    cursor:pointer;
+}
+
+.error-message {
+    margin-top: 10px;
+}

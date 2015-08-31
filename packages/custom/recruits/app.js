@@ -13,18 +13,45 @@ var Recruits = new Module('recruits');
  */
 Recruits.register(function(app, auth, database) {
 
-  //We enable routing. By default the Package Object is passed to the routes
-  Recruits.routes(app, auth, database);
+    //We enable routing. By default the Package Object is passed to the routes
+    Recruits.routes(app, auth, database);
 
-  //We are adding a link to the main menu for all authenticated users
-  Recruits.menus.add({
-    title: 'View Recruits',
-    link: 'recruitsIndex',
-    roles: ['authenticated'],
-    menu: 'main'
-  });
+    //We are adding a link to the main menu for all authenticated users
+    Recruits.menus.add({
+        title: 'View Recruits',
+        link: 'recruitsIndex',
+        roles: ['authenticated'],
+        menu: 'main'
+    });
 
-  Recruits.aggregateAsset('css', 'recruits.css');
+    Recruits.angularDependencies(['ngToast', 'ngMessages']);
 
-  return Recruits;
+    Recruits.aggregateAsset('css', 'recruits.css');
+
+    Recruits.aggregateAsset('css', '../lib/ngToast/dist/ngToast.min.css', {
+        absolute: false,
+        global: true
+    });
+
+    Recruits.aggregateAsset('css', '../lib/ngToast/dist/ngToast-animations.min.css', {
+        absolute: false,
+        global: true
+    });
+
+    Recruits.aggregateAsset('js', '../lib/angular-messages/angular-messages.min.js', {
+        absolute: false,
+        global: true
+    });
+
+    Recruits.aggregateAsset('js', '../lib/ngToast/dist/ngToast.min.js', {
+        absolute: false,
+        global: true
+    });
+
+    Recruits.aggregateAsset('js', '../lib/zeroclipboard/dist/ZeroClipboard.js', {
+        absolute: false,
+        global: true
+    });
+
+    return Recruits;
 });

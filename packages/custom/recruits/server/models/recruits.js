@@ -41,7 +41,7 @@ var RecruitSchema = new Schema({
 
   },
 
-  dateOfBirth: {
+  birthDate: {
     type: Date
   },
 
@@ -50,8 +50,7 @@ var RecruitSchema = new Schema({
   },
 
   graduationClass: {
-    type: Number,
-    required: true
+    type: Number
   },
 
   mothersName: {},
@@ -61,22 +60,20 @@ var RecruitSchema = new Schema({
 
 });
 
+
 /**
  * Virtuals
  */
-RecruitSchema.virtual('heightFeet').set(function(height) {
-  this._heightFeet = Math.floor(height / 12);
-}).get(function() {
-  return this._heightFeet;
+RecruitSchema.virtual('heightFeet').get(function() {
+  return Math.floor(this.height / 12);
 });
 
-RecruitSchema.virtual('heightInches').set(function(height) {
-  this._heightFeet = Math.floor(height / 12);
-  this._heightInches = Math.floor(height - (this._heightFeet * 12));
-}).get(function() {
-  return this._heightInches;
+RecruitSchema.virtual('heightInches').get(function() {
+  return Math.floor(this.height - (this.heightFeet * 12));
 });
 
+
+/**
 /**
  * Methods
  */
@@ -88,6 +85,8 @@ RecruitSchema.methods = {
    */
   toJSON: function() {
     var obj = this.toObject();
+    obj.heightFeet = this.heightFeet;
+    obj.heightInches = this.heightInches;
     return obj;
   }
 };

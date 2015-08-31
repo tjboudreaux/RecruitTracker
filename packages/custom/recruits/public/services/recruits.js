@@ -1,15 +1,27 @@
-'use strict';
+(function() {
 
-angular.module('mean.recruits').factory('Recruits', RecruitsService);
+    'use strict';
 
-RecruitsService.$inject = [
-    '$q',
-    '$http'
-];
+    angular.module('mean.recruits').factory('Recruits', RecruitsService);
 
-function RecruitsService(
-    $q,
-    $http
-) {
+    RecruitsService.$inject = [
+        '$resource'
+    ];
 
-}
+    /**
+     * @ngdoc service
+     * @name mean.recruits:Recruits
+     * @module mean.recruits
+     *
+     * @description
+     *
+     * API Resource for recruits.
+     */
+    function RecruitsService(
+        $resource
+    ) {
+        return $resource('/api/recruits/:recruitId', {recruitId: '@_id'}, {
+            'update': { method:'PUT' }
+        });
+    }
+})();
