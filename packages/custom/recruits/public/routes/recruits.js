@@ -10,7 +10,7 @@
           url: '/recruits',
           templateUrl: 'recruits/views/index.html',
           loggedin: function(MeanUser) {
-                return MeanUser.checkLoggedOut();
+               return MeanUser.checkLoggedin();
           }
         });
 
@@ -19,7 +19,7 @@
           url: '/recruits/create',
           templateUrl: 'recruits/views/form.html',
           loggedin: function(MeanUser) {
-                return MeanUser.checkLoggedOut();
+                return MeanUser.checkLoggedin();
           }
         });
 
@@ -28,7 +28,7 @@
           url: '/recruits/{:id}/edit',
           templateUrl: 'recruits/views/form.html',
           loggedin: function(MeanUser) {
-                return MeanUser.checkLoggedOut();
+                return MeanUser.checkLoggedin();
           }
         });
       }
