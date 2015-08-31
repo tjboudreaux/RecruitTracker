@@ -19,7 +19,7 @@ Recruits.register(function(app, auth, database) {
   //We are adding a link to the main menu for all authenticated users
   Recruits.menus.add({
     title: 'View Recruits',
-    link: 'View Recruits',
+    link: 'recruitsIndex',
     roles: ['authenticated'],
     menu: 'main'
   });
