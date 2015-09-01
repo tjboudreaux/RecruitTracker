@@ -1,9 +1,9 @@
 {
   "name": "recruits",
   "version": "0.0.1",
-  "description": "Some description of recruits",
+  "description": "Recruit tracking system.",
   "author": {
-    "name": "mean scaffold"
+    "name": "Travis Boudreaux"
   },
   "mean": "0.5.5",
   "engines": {
