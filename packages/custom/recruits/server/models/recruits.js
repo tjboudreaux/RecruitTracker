@@ -53,6 +53,12 @@ var RecruitSchema = new Schema({
     type: Number
   },
 
+  rating: {
+    type: Number,
+    min: 0,
+    max: 100
+  },
+
   mothersName: {},
   fathersName: {},
   coachesName: {},

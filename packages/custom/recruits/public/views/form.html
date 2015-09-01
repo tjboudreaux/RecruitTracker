@@ -6,7 +6,7 @@
 
         <div class="row">
             <div class="col col-md-8 form-group"
-                 ng-class="{ 'has-error': (recruitForm.recruitName.$dirty && recruitForm.recruitName.$error) }">
+                 ng-class="{ 'has-error': recruitForm.recruitName.$invalid && !recruitForm.recruitName.$pristine }">
                 <label for="recruitName">Recruit Name</label>
                 <input type="text"
                        id="recruitName"
@@ -17,7 +17,7 @@
                        ng-required="true"
                        minlength="5"
                        maxlength="50"
-                       ui-validate="{name:'validateName($value)'}" />
+                       ui-validate="{name:'validateName($value)'}"/>
 
                 <div ng-if="recruitForm.recruitName.$dirty"
                      ng-messages="recruitForm.recruitName.$error"
@@ -40,7 +40,7 @@
                 </div>
 
                 <div class="row form-group"
-                     ng-class="{ 'has-error': (recruitForm.recruitHeight.$dirty && recruitForm.recruitHeight.$error) }">
+                     ng-class="{ 'has-error': recruitForm.recruitHeight.$invalid && !recruitForm.recruitHeight.$pristine }">
                     <div class="col col-md-6">
                         <input type="number"
                                id="recruitHeightFeet"
@@ -94,12 +94,13 @@
             <div class="col col-md-4">
                 <div class="row form-group">
                     <div class="col col-md-12">
-                        <label for="recruitHeightFeet" class="pull-left">Weight</label>
+                        <label for="recruitWeight" class="pull-left">Weight</label>
                     </div>
                 </div>
 
                  <div class="row form-group">
-                    <div class="col col-md-12">
+                    <div class="col col-md-12"
+                         ng-class="{ 'has-error': recruitForm.recruitWeight.$invalid && !recruitForm.recruitWeight.$pristine }">
                         <input type="number"
                                id="recruitWeight"
                                name="recruitWeight"
@@ -185,7 +186,7 @@
                     <div class="col col-md-12">
                         <select class="form-control"
                                 ng-model="recruit.graduationClass"
-                                ng-options="label for value in graduationClasses">
+                                ng-options="value for value in graduationClasses">
                             <option value="">Select a Class</option>
                         </select>
                     </div>
@@ -196,17 +197,33 @@
             <div class="col col-md-4">
                 <div class="row form-group">
                     <div class="col col-md-12">
-                        <label for="recruitHeightFeet" class="pull-left">Position</label>
+                        <label for="recruitRating" class="pull-left">Rating <small>(0-100)</small></label>
                     </div>
                 </div>
 
                  <div class="row form-group">
-                    <div class="col col-md-12">
-                        <select class="form-control"
-                                ng-model="recruit.position"
-                                ng-options="value for (key, value) in positions">
-                                <option value="">Select a Position</option>
-                        </select>
+                    <div class="col col-md-12"
+                         ng-class="{ 'has-error': recruitForm.recruitRating.$invalid && !recruitForm.recruitRating.$pristine }">
+                        <input type="number"
+                               id="recruitRating"
+                               name="recruitRating"
+                               class="form-control"
+                               ng-model="recruit.rating"
+                               min="0"
+                               max="100"
+                               placeholder="0"/>
+
+                        <div ng-if="recruitForm.recruitRating.$dirty"
+                             ng-messages="recruitForm.recruitRating.$error"
+                             role="alert"
+                             class="error-message text-danger">
+
+                            <div ng-message="min">Rating cannot be less than 0.</div>
+                            <div ng-message="max">Rating cannot be greater than 100.</div>
+                             <div ng-messages-include="error-messages"></div>
+
+                        </div>
+
                     </div>
                 </div>
 

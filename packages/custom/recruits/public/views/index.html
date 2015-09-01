@@ -11,6 +11,8 @@
       <tr>
         <th>Player Name</th>
         <th>Position</th>
+        <th>Class</th>
+        <th>Age</th>
         <th>Height</th>
         <th>Weight</th>
         <th>Rating</th>
@@ -34,9 +36,11 @@
           ng-mouseleave="hover = false">
         <td>{{ recruit.name }}</td>
         <td> {{ recruit.position }}</td>
+        <td> {{ recruit.graduationClass }} </td>
+        <td> {{ calculateAge(recruit.birthDate) }} <small> {{recruit.birthDate | date:'mediumDate' || '' }} </small>
         <td>{{ displayHeight(recruit.height) }}</td>
         <td>{{recruit.weight}}</td>
-        <td>Rating</td>
+        <td>{{recruit.rating || "Unranked"}}</td>
       </tr>
     </tbody>
   </table>

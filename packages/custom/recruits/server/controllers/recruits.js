@@ -30,6 +30,7 @@ module.exports = function(Recruits) {
             var params =
             //TODO -- search by parameters --- return entire list for now.
             Recruit.find()
+            .sort([ ['graduationClass', 1], ['name', -1] ])
             .exec(function(err, recruits){
                 if (err) {
                     return res.status(500).json({

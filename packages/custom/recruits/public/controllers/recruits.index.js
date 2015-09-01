@@ -42,6 +42,7 @@
         $scope.recruits = [];
         $scope.displayHeight = displayHeight;
         $scope.editRecruit = editRecruit;
+        $scope.calculateAge = calculateAge;
 
         init();
 
@@ -102,6 +103,29 @@
         function editRecruit(recruitId)
         {
             $state.go('recruitsEdit', {id: recruitId});
+        }
+
+        /**
+         * @ngdoc method
+         * @name  calculateAge
+         * @methodOf mean.recruits:RecruitsController
+         * @module mean.recruits
+         *
+         * @description
+         *
+         * Convert a player's birthdate into current age.
+         *
+         */
+        function calculateAge(birthdate)
+        {
+
+            if (!angular.isDefined(birthdate)) {
+                return '';
+            }
+
+            var ageDifMs = Date.now() - new Date(birthdate).getTime();
+            var ageDate = new Date(ageDifMs); // miliseconds from epoch
+            return Math.abs(ageDate.getUTCFullYear() - 1970);
         }
     }
 })();

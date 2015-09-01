@@ -76,7 +76,7 @@ function RecruitsFormController(
 
         var thisYear = new Date().getFullYear();
 
-        for (i=0; i<=17; i++) {
+        for (var i=0; i<=17; i++) {
             $scope.graduationClasses.push(thisYear + i);
         }
     }
