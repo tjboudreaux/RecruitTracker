@@ -1,27 +1,49 @@
-<div class="" data-ng-controller="RecruitsController">
-  <h1>Example view from your new awesome package</h1>
-  <h2>Package: {{package.name}}</h2>
-  <ol>
-    <li>
-      <a href="/api/recruits/example/anyone" target="_self">Server route that anyone can access</a>
-    </li>
-    <li>
-      <a href="/api/recruits/example/auth" target="_self">Server route that requires authentication</a>
-    </li>
-    <li>
-      <a href="/api/recruits/example/admin" target="_self">Server route that requires admin user</a>
-    </li>
-    <li>
-      <a href="/api/recruits/example/render" target="_self">Raw Html rendering example from using swig</a>
-    </li>
-  </ol>
-  <h3><img src="/recruits/assets/img/logo.png" /></h3>
-  </br>
-  <p class="alert alert-info">You can find your package in /packages/recruits</p>
-  </br>
-  <p class="alert alert-warning">MEAN versions prior to 0.3.2 will be in /node_modules/recruits</p>
-  </br>
-  <h3><a href="http://learn.mean.io">Documentation</a></h3>
-  </br>
+<div>
+  <h1 class="text-left">Recruits</h1>
+  <p class="lead">To win national championships we must bring in the best talent across the country.
+  With RecruitTracker, we can keep track of all of the top players in the country and determine which
+  ones might be the best fit for our system. </p>
+
+  <a class="btn btn-primary" ui-sref="recruitsCreate">Add New Recruit</a>
+
+  <table class="table recruits-table">
+    <thead>
+      <tr>
+        <th>Player Name</th>
+        <th>Position</th>
+        <th>Class</th>
+        <th>Age</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+
+    <tbody ng-if="showEmptyState">
+      <tr>
+        <td colspan="5">
+          <p class="lead text-center"> You haven't added any recruits yet! Let's add our first recruit.</p>
+        </td>
+      </tr>
+    </tbody>
+
+    <tbody ng-if="!showEmptyState">
+      <tr ng-repeat="recruit in recruits track by recruit._id"
+          class="recruit-row"
+          ng-class="{active: hover}"
+          ng-click="editRecruit(recruit._id)"
+          ng-mouseenter="hover = true"
+          ng-mouseleave="hover = false">
+        <td>{{ recruit.name }}</td>
+        <td> {{ recruit.position }}</td>
+        <td> {{ recruit.graduationClass }} </td>
+        <td> {{ calculateAge(recruit.birthDate) }} <small> {{recruit.birthDate | date:'mediumDate' || '' }} </small>
+        <td>{{ displayHeight(recruit.height) }}</td>
+        <td>{{recruit.weight}}</td>
+        <td>{{recruit.rating || "Unranked"}}</td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 
