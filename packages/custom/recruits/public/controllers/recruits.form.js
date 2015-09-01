@@ -70,6 +70,10 @@ function RecruitsFormController(
     {
         if ($scope.isEdit) {
             Recruits.get({recruitId:$scope.id}, function(recruit){
+                if (angular.isDefined(recruit.birthDate)) {
+                    //fixes a type bug caused by loading a date string into the widget
+                    recruit.birthDate = new Date(recruit.birthDate);
+                }
                 $scope.recruit = recruit;
             });
         }
