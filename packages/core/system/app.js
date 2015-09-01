@@ -20,8 +20,8 @@ SystemPackage.register(function(app, auth, database, circles) {
   SystemPackage.routes(app, auth, database);
 
   SystemPackage.aggregateAsset('css', 'common.css');
-  SystemPackage.angularDependencies(['mean-factory-interceptor']);
-  
+  SystemPackage.angularDependencies(['mean-factory-interceptor', 'ngCookies']);
+
 
   // The middleware in config/express will run before this code
 
@@ -29,7 +29,11 @@ SystemPackage.register(function(app, auth, database, circles) {
   app.set('views', __dirname + '/server/views');
 
   // Setting the favicon and static folder
-  app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
+  if(config.favicon) {
+    app.use(favicon(config.favicon));
+  } else {
+    app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
+  }
 
   // Adding robots and humans txt
   app.useStatic(__dirname + '/public/assets/static');
@@ -40,7 +44,7 @@ SystemPackage.register(function(app, auth, database, circles) {
     roles: ['authenticated'],
     menu: 'account'
   });
-  
+
 
   return SystemPackage;
 
