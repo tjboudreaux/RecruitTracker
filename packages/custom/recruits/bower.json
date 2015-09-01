@@ -4,6 +4,7 @@
   "dependencies": {
     "angular-loading-bar": "~0.8.0",
     "angular-messages": "~1.4.5",
+    "angular-ui-validate": "~1.1.1",
     "ngToast": "ngtoast#~1.5.5"
   }
 }

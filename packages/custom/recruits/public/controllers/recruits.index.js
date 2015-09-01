@@ -37,11 +37,17 @@
         $scope.package = {
             name: 'recruits'
         };
+
+        //define scope params and methods here
         $scope.recruits = [];
         $scope.displayHeight = displayHeight;
         $scope.editRecruit = editRecruit;
+
         init();
 
+        /////////////////////////////////////////////////////////////////////
+        // implement private and scope methods below
+        /////////////////////////////////////////////////////////////////////
 
         /**
          * @ngdoc method
@@ -95,7 +101,6 @@
          */
         function editRecruit(recruitId)
         {
-            console.log(recruitId);
             $state.go('recruitsEdit', {id: recruitId});
         }
     }

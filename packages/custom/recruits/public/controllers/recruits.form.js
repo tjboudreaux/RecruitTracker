@@ -40,15 +40,22 @@ function RecruitsFormController(
         maxNumber: 1
     }
 
+    //define scope params and methods here
     $scope.id = $stateParams.id;
     $scope.isDateOpened = false;
-    $scope.todaysDate = new Date();
+    $scope.maxDate = new Date();
     $scope.isEdit = angular.isDefined($scope.id);
     $scope.positions = Positions;
     $scope.saveRecruit = saveRecruit;
     $scope.openDateModal = openDateModal;
-
+    $scope.validateName = validateName;
+    $scope.updateHeight = updateHeight;
+    $scope.graduationClasses = [];
     init();
+
+    /////////////////////////////////////////////////////////////////////
+    // implement private and scope methods below
+    /////////////////////////////////////////////////////////////////////
 
     /**
      * @ngdoc method
@@ -63,9 +70,14 @@ function RecruitsFormController(
     {
         if ($scope.isEdit) {
             Recruits.get({recruitId:$scope.id}, function(recruit){
-                console.log('retrieve recruit');
                 $scope.recruit = recruit;
             });
+        }
+
+        var thisYear = new Date().getFullYear();
+
+        for (i=0; i<=17; i++) {
+            $scope.graduationClasses.push(thisYear + i);
         }
     }
 
@@ -159,5 +171,52 @@ function RecruitsFormController(
                 }
             }
         }
+    }
+
+    /**
+     * @ngdoc method
+     * @name validateName
+     * @methodOf mean.recruits:RecruitsFormController
+     * @module mean.recruits
+     *
+     * @description
+     *
+     * A name can only contain letters, apostrophes and spaces.
+     *
+     * @param {String} name string to validate
+     *
+     */
+    function validateName(name)
+    {
+        if (!angular.isString(name))
+        {
+            //only validate strings --- other rules like required can handle null cases
+            return true;
+        }
+
+        var matches = name.match(/^[a-zA-Z\s']+$/);
+
+        return (angular.isArray(matches) && matches.length > 0);
+    }
+
+    /**
+     * @ngdoc method
+     * @name updateHeight
+     * @methodOf mean.recruits:RecruitsFormController
+     * @module mean.recruits
+     *
+     * @description
+     *
+     * Combine the feet and inches into one height value. This is triggered via an ng-change
+     * event on the feet and inches fields.
+     *
+     */
+    function updateHeight()
+    {
+        var feetInInches = angular.isDefined($scope.recruit.heightFeet) ? parseInt($scope.recruit.heightFeet) * 12 : 0;
+        var inches = angular.isDefined($scope.recruit.heightInches) ? parseInt($scope.recruit.heightInches) : 0;
+
+        $scope.recruit.height = feetInInches + inches;
+        console.log($scope.recruit.height);
     }
 }

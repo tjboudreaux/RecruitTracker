@@ -6,8 +6,7 @@
 
         <div class="row">
             <div class="col col-md-8 form-group"
-                 ng-class="{has-error: recruitForm.recruitName.$dirty && recruitForm.recruitName.$error}"
-            >
+                 ng-class="{ 'has-error': (recruitForm.recruitName.$dirty && recruitForm.recruitName.$error) }">
                 <label for="recruitName">Recruit Name</label>
                 <input type="text"
                        id="recruitName"
@@ -15,13 +14,20 @@
                        class="form-control"
                        placeholder="Enter the recruit's name"
                        ng-model="recruit.name"
-                       ng-required="true" />
+                       ng-required="true"
+                       minlength="5"
+                       maxlength="50"
+                       ui-validate="{name:'validateName($value)'}" />
 
-                <div ng-messages="recruitForm.recruitName.$dirty && recruitForm.recruitName.$error"
+                <div ng-if="recruitForm.recruitName.$dirty"
+                     ng-messages="recruitForm.recruitName.$error"
                      role="alert"
                      class="error-message text-danger">
-                    <div ng-message="required">Recruit name is required.</div>
-                  </div>
+                    <div ng-message="minlength">Recruit name must be more than 5 characters long.</div>
+                    <div ng-message="maxlength">Recruit name must be more than 50 characters long.</div>
+                    <div ng-message="name">A recruit's name can only consist of letters, spaces, and apostrophes.</div>
+                    <div ng-messages-include="error-messages"></div>
+                </div>
             </div>
         </div>
 
@@ -33,21 +39,54 @@
                     </div>
                 </div>
 
-                <div class="row form-group">
+                <div class="row form-group"
+                     ng-class="{ 'has-error': (recruitForm.recruitHeight.$dirty && recruitForm.recruitHeight.$error) }">
                     <div class="col col-md-6">
-                        <input type="text"
-                               id="recruitHeightInches"
+                        <input type="number"
+                               id="recruitHeightFeet"
+                               name="recruitHeightFeet"
                                class="form-control"
                                ng-model="recruit.heightFeet"
+                               ng-change="updateHeight()"
                                placeholder="ft" />
                     </div>
+
                     <div class="col col-md-6">
-                        <input type="text"
-                               id="recruitHeightFeet"
+                        <input type="number"
+                               id="recruitHeightInches"
+                               name="recruitHeightInches"
                                class="form-control"
                                ng-model="recruit.heightInches"
+                               ng-change="updateHeight()"
+                               max="11"
                                placeholder="in" />
                     </div>
+
+                    <div class="col col-md-12">
+                        <input type="number"
+                               class="hidden"
+                               id="recruitHeight"
+                               name="recruitHeight"
+                               ng-model="recruit.height"
+                               max="120"
+                               ng-required="true" />
+
+                        <div ng-messages="recruitForm.recruitHeight.$dirty && recruitForm.recruitHeight.$error"
+                             role="alert"
+                             class="error-message text-danger">
+                             <div ng-message="max">Your recruit cannot be taller than 10 ft.</div>
+                             <div ng-messages-include="error-messages"></div>
+                        </div>
+
+                        <div ng-messages="recruitForm.recruitHeightInches.$dirty && recruitForm.recruitHeightInches.$error"
+                             role="alert"
+                             class="error-message text-danger">
+                             <div ng-message="max">There are 12 inches in a foot. Please round the feet measurement up.</div>
+                             <div ng-messages-include="error-messages"></div>
+                        </div>
+
+                    </div>
+
                 </div>
 
             </div>
@@ -61,12 +100,23 @@
 
                  <div class="row form-group">
                     <div class="col col-md-12">
-                        <input type="text"
+                        <input type="number"
                                id="recruitWeight"
+                               name="recruitWeight"
                                class="form-control"
                                ng-model="recruit.weight"
-                               placeholder="lbs" />
+                               placeholder="lbs"
+                               ng-required="true"
+                               max="500" />
                     </div>
+                </div>
+
+                <div ng-if="recruitForm.recruitWeight.$dirty"
+                     ng-messages="recruitForm.recruitWeight.$error"
+                     role="alert"
+                     class="error-message text-danger">
+                     <div ng-message="max">A recruit cannot weigh more than 500 lbs.</div>
+                     <div ng-messages-include="error-messages"></div>
                 </div>
 
             </div>
@@ -86,10 +136,11 @@
                         <p class="input-group">
                             <input type="text"
                                    class="form-control"
-                                   datepicker-popup="{{format}}"
+                                   datepicker-popup="MM/dd/yyyy"
                                    ng-model="recruit.birthDate"
                                    is-open="isDateOpened"
-                                   max-date="todaysDate"
+                                   max-date="maxDate"
+                                   max="maxDate"
                                    datepicker-options="dateOptions"
                                    disabled
                                    close-text="Close" />
@@ -122,6 +173,45 @@
             </div>
         </div>
 
+        <div class="row form-group">
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <label for="recruitGraduationClass" class="pull-left">Graduation Class</label>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <select class="form-control"
+                                ng-model="recruit.graduationClass"
+                                ng-options="label for value in graduationClasses">
+                            <option value="">Select a Class</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col col-md-4">
+                <div class="row form-group">
+                    <div class="col col-md-12">
+                        <label for="recruitHeightFeet" class="pull-left">Position</label>
+                    </div>
+                </div>
+
+                 <div class="row form-group">
+                    <div class="col col-md-12">
+                        <select class="form-control"
+                                ng-model="recruit.position"
+                                ng-options="value for (key, value) in positions">
+                                <option value="">Select a Position</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+        </div>
 
 
         <div class="row">
@@ -132,3 +222,9 @@
         </div>
     </div>
 </div>
+
+<script type="text/ng-template" id="error-messages">
+  <div ng-message="required">This field is required.</div>
+  <div ng-message="minlength">This field is too short.</div>
+  <div ng-message="maxlength">This field is too long.</div>
+</script>

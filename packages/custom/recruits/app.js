@@ -24,7 +24,7 @@ Recruits.register(function(app, auth, database) {
         menu: 'main'
     });
 
-    Recruits.angularDependencies(['ngToast', 'ngMessages']);
+    Recruits.angularDependencies(['ui.validate', 'ngToast', 'ngMessages']);
 
     Recruits.aggregateAsset('css', 'recruits.css');
 
@@ -34,6 +34,11 @@ Recruits.register(function(app, auth, database) {
     });
 
     Recruits.aggregateAsset('css', '../lib/ngToast/dist/ngToast-animations.min.css', {
+        absolute: false,
+        global: true
+    });
+
+    Recruits.aggregateAsset('js', '../lib/angular-ui-validate/dist/validate.min.js', {
         absolute: false,
         global: true
     });
